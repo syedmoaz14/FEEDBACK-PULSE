@@ -26,9 +26,12 @@ def load_analyzed_data():
     """Loads the final, LLM-analyzed data."""
     try:
         df = pd.read_csv('master_analysis_data.csv')
-        # Ensure key columns are treated as strings
-        df['sentiment'] = df['sentiment'].astype(str)
-        df['topic'] = df['topic'].astype(str)
+
+        # --- Crucial check to clean up data before plotting ---
+        # Fill any unexpected NaN values in analysis columns to avoid plot errors
+        df['sentiment'] = df['sentiment'].fillna('UNKNOWN').astype(str)
+        df['topic'] = df['topic'].fillna('UNKNOWN').astype(str)
+
         return df
     except FileNotFoundError:
         # This error handles the case where the user hasn't run main.py yet
