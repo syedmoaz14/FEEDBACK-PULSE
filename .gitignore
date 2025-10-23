@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+.env
+
+# Virtual Environment
+venv/
+
+# Data and Secrets
+*.csv  # You may want to ignore large datasets if you don't upload them
+*.zip
+.DS_Store
+
+# PyCharm files
+.idea/
