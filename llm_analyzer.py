@@ -1,10 +1,11 @@
+# llm_analyzer.py
 
 import os
 import json
 from google import genai
 from google.genai.errors import APIError
 
-# P3.1: Define the Structured Output Schema
+# --- P3.1: Define the Structured Output Schema ---
 ANALYSIS_SCHEMA = {
     "type": "object",
     "properties": {
@@ -14,26 +15,34 @@ ANALYSIS_SCHEMA = {
         },
         "topic": {
             "type": "string",
-            "description": "A single, high-level topic. Choose from: Sizing_Fit, Quality, Shipping_Delivery, Price_Value, Customer_Service, Design_Style."
+            "description": "A single, high-level business topic the review addresses. Choose from: Sizing_Fit, Quality, Shipping_Delivery, Price_Value, Customer_Service, Design_Style."
         },
         "action_item": {
             "type": "string",
-            "description": "A short, actionable suggestion for the business (e.g., 'Increase stock of XXL size,' 'Improve clarity of return policy')."
+            "description": "A short, actionable suggestion for the business based ONLY on this review (e.g., 'Increase stock of XXL size,' 'Improve clarity of return policy')."
         }
     },
     "required": ["sentiment", "topic", "action_item"]
 }
 
-# P2.3: Initialize Client and Core Function
-try:
-    # Client initialization (picks up P1.4 environment variable)
-    client = genai.Client()
-except Exception as e:
-    print(f"Error initializing Gemini client: {e}")
+# --- P2.3: Initialize Client (Robustly handles key lookup) ---
+API_KEY = os.environ.get("GEMINI_API_KEY")
+
+if not API_KEY:
+    print("FATAL ERROR in llm_analyzer: GEMINI_API_KEY environment variable not found.")
     client = None
+else:
+    try:
+        client = genai.Client(api_key=API_KEY)
+    except Exception as e:
+        print(f"Error initializing Gemini client: {e}")
+        client = None
+
 
 def call_llm_analysis(review_text: str) -> dict:
-    """Sends a single review to the LLM for structured analysis."""
+    """
+    Sends a single review to the LLM for structured analysis.
+    """
     if client is None:
         return None
 
@@ -60,18 +69,5 @@ def call_llm_analysis(review_text: str) -> dict:
         return json.loads(response.text)
 
     except Exception as e:
-        # Catch API and decoding errors
         print(f"Error analyzing review: {e}. Review text: {review_text[:50]}...")
         return None
-
-# Test Block (Run this file to test P1.4 and the LLM function)
-if __name__ == '__main__':
-    test_review = "The dress is perfect for summer, but the stitching came loose after one wash. Disappointed with the quality control."
-    print(f"--- Testing LLM Analysis on: '{test_review}' ---")
-    analysis = call_llm_analysis(test_review)
-
-    if analysis:
-        print("\nLLM Output (Structured JSON):")
-        print(json.dumps(analysis, indent=4))
-    else:
-        print("\nLLM Test Failed. Check API Key (P1.4) or network connection.")

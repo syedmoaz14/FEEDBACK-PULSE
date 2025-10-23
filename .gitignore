@@ -7,8 +7,11 @@ __pycache__/
 venv/
 
 # Data and Secrets
-*.csv  # You may want to ignore large datasets if you don't upload them
-*.zip
+master_analysis_data.csv
+# Removed the original CSV ignore line so you can commit the raw file
+# for full project transparency, if you wish.
+# If you decide not to commit the raw data, use: Womens Clothing E-Commerce Reviews.csv
+
 .DS_Store
 
 # PyCharm files
