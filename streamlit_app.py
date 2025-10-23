@@ -5,6 +5,8 @@ import pandas as pd
 import plotly.express as px
 import io
 
+
+pio.templates.default = 'plotly'
 # ----------------------------------------------------
 # ❗ P4.1: Call st.set_page_config FIRST after imports ❗
 # ----------------------------------------------------
