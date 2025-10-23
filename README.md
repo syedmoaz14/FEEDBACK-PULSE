@@ -37,8 +37,8 @@ It addresses the critical business need of rapidly processing large volumes of c
 
 1.  **Clone the Repository:**
     ```bash
-    git clone [Your GitHub Repository URL Here]
-    cd feedback_pulse_ai
+    git clone https://github.com/syedmoaz14/FEEDBACK-PULSE.git
+    cd FEEDBACK-PULSE
     ```
 2.  **Create and Activate Virtual Environment:**
     ```bash
