@@ -1,7 +1,5 @@
 ## 🛍️ FeedbackPulse AI: E-commerce Review Analyst
 
-This project is now live! View the fully interactive dashboard here:
-
 ### 🔗 **Live Application Link**
 
 **[[Live Streamlit App](https://feedback-pulse-bl3gepcrgy4b2axjaxaoaz.streamlit.app/)]** 
